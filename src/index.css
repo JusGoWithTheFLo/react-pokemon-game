@@ -1,0 +1,74 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100vw;
+    padding: 0 5px; /* adds padding to sides */
+}
+
+.section{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    padding: 10px;
+    width: 100%;
+}
+
+
+
+
+/* LOVE & LOVED POKEMON */
+.love-pokemon{
+    gap: 20px;
+}
+.love-pokemon .sparkle{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.love-buttons{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.love-buttons button{
+    background: linear-gradient(to bottom right, rgb(43, 255, 43) -10%, rgb(0, 125, 0) 120%);
+    border: none;
+    box-shadow: 1px 1px 4px black;
+    color: white;
+    cursor: pointer;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    margin: 0 5px;
+    padding: 5px 10px;
+    text-transform: uppercase;
+}
+
+.love-buttons button:last-child{
+    background: linear-gradient(to bottom right, rgb(255, 43, 43) -10%, rgb(125, 0, 0) 120%) !important;
+}
+
+.love-buttons img{
+    aspect-ratio: 1 / 1;
+    height: 50px;
+}
+
+.loved-pokemon img.pokemon{
+    aspect-ratio: 1 / 1;
+}
+
+.loved-pokemon .image{
+    position: relative;
+}
+
