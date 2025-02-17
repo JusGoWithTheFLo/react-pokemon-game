@@ -5,13 +5,16 @@ import LovedPokemon from './LovedPokemon'
 
 export default function LovePokemon(props){
     // props
-    const {pokemonList, selectedPokemon, setSelectedPokemon, myPokemon, setMyPokemon, setSavedPokemonList} = props
+    const {pokemonList, selectedPokemon, setSelectedPokemon, shownPokemon, setShownPokemon, setSavedPokemonList, hearts, setHearts} = props
 
     // states
-    const [hearts, setHearts] = useState([0,0,0,0,0])
     const [showSparkle, setShowSparkle] = useState(false)
-    
 
+    // allows shownPokemon to get fetched
+    if(shownPokemon === null){
+        return ''
+    }
+    
     // lighting effects
     const sparkleURL = 'https://img1.picmix.com/output/stamp/normal/9/6/4/7/1557469_1a708.gif'
     const hurtURL = 'https://img.itch.zone/aW1nLzk3OTkzMDYuZ2lm/original/p78Kg1.gif'
@@ -22,10 +25,22 @@ export default function LovePokemon(props){
     const hugURL = 'https://pbs.twimg.com/media/DxmZAzZWwAA7QXH.png'
     const battleURL ='https://www.s24sammy.com/uploads/1/2/0/4/120476725/go-battle-girl-gold-medal_orig.png'
 
+    // pokemon sprite
+    const pokemonSprite = shownPokemon.sprites.versions['generation-v']['black-white'].animated.front_default
+    const pokemonName = handleNames()
+    const pokemonHeight = shownPokemon.height
+
+    // capitalizes first letter in names
+    function handleNames(){
+        const pokemonName = shownPokemon.name
+        const pokemonNameCapitalized = pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)
+        return pokemonNameCapitalized
+    }
+
     // renders hearts
-    const heartElements = hearts.map((heart, index) => (
-        <Heart key={index} isFilled={(heart === 1)} /> // passes boolean to Heart component
-    ))
+      const heartElements = hearts.map((heart, index) => (
+          <Heart key={index} isFilled={(heart === 1)} /> // passes boolean to Heart component
+      ))
 
     // handles changes to the hearts
     function handleHeartChange(num) {
@@ -69,19 +84,27 @@ export default function LovePokemon(props){
     }
 
     function handleSavePokemon(){
-        console.log(hearts)
-        // hearts
-        //
+        setSavedPokemonList(prev => {
+            const addPokemon = {
+                name: pokemonName,
+                sprite: pokemonSprite,
+                height: pokemonHeight,
+                hearts: hearts
+            }
+
+            return [...prev, addPokemon]
+        })
     }
 
+    
     return(
         <div className='love-pokemon section'>
             <h1>Love Pokemon</h1>
-            <div>
+            <div className='hearts-row'>
                 {heartElements}
             </div>
             <div>
-                <LovedPokemon myPokemon={myPokemon} showSparkle={showSparkle} />
+                <LovedPokemon shownPokemon={shownPokemon} showSparkle={showSparkle} pokemonSprite={pokemonSprite} pokemonName={pokemonName} pokemonHeight={pokemonHeight} />
             </div>
             <div className='love-buttons'>
                 <button onClick={() => handleHeartChange(1)}>
@@ -101,7 +124,7 @@ export default function LovePokemon(props){
                     <p>Battle</p>
                 </button>
             </div>
-            {/* <button onClick={handleSavePokemon}>Save Pokemon</button> */}
+            <button onClick={handleSavePokemon}>Save Pokemon</button>
         </div>
     )
 }

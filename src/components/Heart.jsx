@@ -21,6 +21,10 @@ export default function Heart({isFilled}){
     const emptyHeart = "https://img.freepik.com/premium-vector/empty-pixelated-heart-icon-emptiness-void-absence-love-loneliness-longing-vacant-emotions-digital-symbol-pixel-art-retro-nostalgia-vector-line-icon-business-advertising_855332-1963.jpg"
 
     return(
-        <img src={isFilled ? filledHeart : emptyHeart} alt={isFilled ? 'filled heart' : 'empty heart'} height='50px' width='50px' />
+        <img 
+            className="heart"
+            src={isFilled ? filledHeart : emptyHeart} 
+            alt={isFilled ? 'filled heart' : 'empty heart'} 
+            />
     )
 }

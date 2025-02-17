@@ -3,7 +3,7 @@ import {useState} from 'react'
 
 export default function LovedPokemon(props){
     // props
-    const {myPokemon, showSparkle} = props
+    const {shownPokemon, showSparkle, pokemonSprite, pokemonName, pokemonHeight} = props
     
     
 
@@ -14,15 +14,10 @@ export default function LovedPokemon(props){
     const veryBig = '175px'
 
 
-    // allows myPokemon to get fetched
-    if(myPokemon === null){
+    // allows shownPokemon to get fetched
+    if(shownPokemon === null){
         return ''
     }
-    // pokemon sprite
-    const pokemonSprite = myPokemon.sprites.versions['generation-v']['black-white'].animated.front_default
-    const pokemonName = myPokemon.name
-    const pokemonNameCapitalized = pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)
-    const pokemonHeight = myPokemon.height
 
     function handleSpriteSize(){
         if(pokemonHeight <= 5){
@@ -55,7 +50,7 @@ export default function LovedPokemon(props){
                 }
                 
             </div>
-            <h3>{pokemonNameCapitalized}</h3>
+            <h3>{pokemonName}</h3>
         </div>
     )
 }
