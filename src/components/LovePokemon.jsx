@@ -5,7 +5,7 @@ import LovedPokemon from './LovedPokemon'
 
 export default function LovePokemon(props){
     // props
-    const {pokemonList, selectedPokemon, setSelectedPokemon, myPokemon, setMyPokemon} = props
+    const {pokemonList, selectedPokemon, setSelectedPokemon, myPokemon, setMyPokemon, setSavedPokemonList} = props
 
     // states
     const [hearts, setHearts] = useState([0,0,0,0,0])
@@ -26,8 +26,6 @@ export default function LovePokemon(props){
     const heartElements = hearts.map((heart, index) => (
         <Heart key={index} isFilled={(heart === 1)} /> // passes boolean to Heart component
     ))
-
-    
 
     // handles changes to the hearts
     function handleHeartChange(num) {
@@ -70,6 +68,12 @@ export default function LovePokemon(props){
         });
     }
 
+    function handleSavePokemon(){
+        console.log(hearts)
+        // hearts
+        //
+    }
+
     return(
         <div className='love-pokemon section'>
             <h1>Love Pokemon</h1>
@@ -97,6 +101,7 @@ export default function LovePokemon(props){
                     <p>Battle</p>
                 </button>
             </div>
+            {/* <button onClick={handleSavePokemon}>Save Pokemon</button> */}
         </div>
     )
 }

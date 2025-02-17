@@ -8,6 +8,7 @@ function App() {
   const [pokemonList, setPokemonList] = useState([])
   const [selectedPokemon, setSelectedPokemon] = useState([24])
   const [myPokemon, setMyPokemon] = useState(null)
+  const [savedPokemonList, setSavedPokemonList] = useState([])
 
   useEffect(() => {
     axios.get('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
@@ -42,7 +43,7 @@ function App() {
 
   return (
     <div className='app'>
-      <LovePokemon pokemonList={pokemonList} selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} myPokemon={myPokemon} setMyPokemon={setMyPokemon} />
+      <LovePokemon pokemonList={pokemonList} selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} myPokemon={myPokemon} setMyPokemon={setMyPokemon} setSavedPokemonList={setSavedPokemonList} />
     </div>
   )
 }
