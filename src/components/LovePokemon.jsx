@@ -5,7 +5,7 @@ import LovedPokemon from './LovedPokemon'
 
 export default function LovePokemon(props){
     // props
-    const {pokemonList, selectedPokemon, setSelectedPokemon, shownPokemon, setShownPokemon, setSavedPokemonList, hearts, setHearts} = props
+    const {shownPokemon, setSavedPokemonList, hearts, setHearts} = props
 
     // states
     const [showSparkle, setShowSparkle] = useState(false)
@@ -30,6 +30,8 @@ export default function LovePokemon(props){
     const pokemonName = handleNames()
     const pokemonHeight = shownPokemon.height
 
+    console.log(pokemonSprite)
+
     // capitalizes first letter in names
     function handleNames(){
         const pokemonName = shownPokemon.name
@@ -42,7 +44,7 @@ export default function LovePokemon(props){
           <Heart key={index} isFilled={(heart === 1)} /> // passes boolean to Heart component
       ))
 
-    // handles changes to the hearts
+    // handles changes to the hearts when user clicks on pet, feed, hug, or battle buttons
     function handleHeartChange(num) {
         setHearts(prev => {
             const updatedHearts = [...prev];
@@ -83,15 +85,32 @@ export default function LovePokemon(props){
         });
     }
 
+    // adds pokemon to savedPokemonList if it doesnt already exist in savedPokemonList
+    // if pokemon does exist, then update hearts
     function handleSavePokemon(){
         setSavedPokemonList(prev => {
+            // check if pokemon exists in savedPokemonList
+            const existingPokemonIndex = prev.findIndex(pokemon => pokemon.id === shownPokemon.id)
+            
+            // data for new pokemon
             const addPokemon = {
+                id: shownPokemon.id,
                 name: pokemonName,
                 sprite: pokemonSprite,
                 height: pokemonHeight,
                 hearts: hearts
             }
 
+            if(existingPokemonIndex !== -1){
+                // if the pokemon exists, update the hearts value
+                const updatedList = [...prev]
+                updatedList[existingPokemonIndex] = {
+                    ...updatedList[existingPokemonIndex],
+                    hearts: hearts
+                }
+                return updatedList
+            }
+            // if the pokemon doesn't exist, add the new pokemon to the list
             return [...prev, addPokemon]
         })
     }

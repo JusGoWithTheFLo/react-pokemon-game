@@ -4,13 +4,13 @@ import SavedPokemon from "./SavedPokemon";
 
 export default function SavedPokemonList(props){
     // props
-    const {savedPokemonList, setShownPokemon} = props
+    const {setSelectedPokemon, savedPokemonList, setHearts} = props
 
     // displays list of saved pokemon
     const savedPokemonElements = savedPokemonList.map((savedPokemon, i) => {
         return(
             <div key={i} className='card'>
-                <SavedPokemon savedPokemon={savedPokemon} setShownPokemon={setShownPokemon}/>
+                <SavedPokemon setSelectedPokemon={setSelectedPokemon} savedPokemon={savedPokemon} setHearts={setHearts}/>
             </div>
         )
     })

@@ -38,6 +38,7 @@ body{
 /* LOVE & LOVED POKEMON */
 .love-pokemon{
     gap: 20px;
+    text-align: center;
 }
 .love-pokemon .sparkle{
     position: absolute;
@@ -75,7 +76,7 @@ body{
 }
 
 .loved-pokemon img.pokemon{
-    aspect-ratio: 1 / 1;
+    /* aspect-ratio: 1 / 1; */
 }
 
 .loved-pokemon .image{

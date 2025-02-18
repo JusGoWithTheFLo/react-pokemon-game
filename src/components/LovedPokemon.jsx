@@ -1,4 +1,4 @@
-import {useState} from 'react'
+
 
 
 export default function LovedPokemon(props){
@@ -8,7 +8,7 @@ export default function LovedPokemon(props){
     
 
     // pokemon heights
-    const small = '100px'
+    const small = '75px'
     const normal = '125px'
     const big = '150px'
     const veryBig = '175px'

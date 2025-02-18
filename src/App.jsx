@@ -7,14 +7,20 @@ import Heart from './components/Heart'
 
 function App() {
   // states
+  const starterPokemon = { // player starts with one pokemon!
+    id: 25,
+    name: 'Pikachu',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/25.gif',
+    height: '4',
+    hearts: [1, 1, 1, 1, 1]
+  }
+  const randomIndex = Math.floor(Math.random() * 150) // randomly generates a pokemon
   const [count, setCount] = useState(0)
   const [pokemonList, setPokemonList] = useState([])
-  const [selectedPokemon, setSelectedPokemon] = useState([24])
+  const [selectedPokemon, setSelectedPokemon] = useState(randomIndex)
   const [shownPokemon, setShownPokemon] = useState(null)
-  const [savedPokemonList, setSavedPokemonList] = useState([])
+  const [savedPokemonList, setSavedPokemonList] = useState([starterPokemon])
   const [hearts, setHearts] = useState([0,0,0,0,0])
-
-  
 
   // POKEAPI
   useEffect(() => {
@@ -22,39 +28,34 @@ function App() {
       // .then(res => console.log(res.data))
       .then(res => setPokemonList(res.data.results))
       .catch(err => console.log('Error found in file: ' + err))
-      console.log('POKEMON API MOUNTED')
+      console.log('POKEMON LIST POPULATED')
       
   }, [])
-  
+
   // Fetches selectedPokemon from POKEAPI
   useEffect(() => {
-    if (pokemonList.length > 0 && selectedPokemon[0] !== undefined){
-      axios.get(pokemonList[selectedPokemon[0]].url)
+    if (pokemonList.length > 0 && selectedPokemon !== undefined){
+      axios.get(pokemonList[selectedPokemon].url)
         .then(res => setShownPokemon(res.data))
         .catch(err => console.log('Error found in file: ' + err))
-        console.log('MYPOKEMON FETCHED AND API MOUNTED')
+        console.log('SHOWNPOKEMON FETCHED AND SPRITE DATA MOUNTED')
     }
     
   }, [pokemonList, selectedPokemon])  
 
   console.log(shownPokemon)
+  console.log(savedPokemonList)
 
-  
-  console.log(pokemonList)
   
   // allows pokemonList to get fetched
   if(pokemonList.length === 0){
     return ''
   }
 
-  // finds index of pokemon based on name
-  // const index = pokemonList.findIndex(pokemon => pokemon.name === shownPokemon.name)
-  // console.log(index)
-
   return (
     <div className='app'>
-      <LovePokemon pokemonList={pokemonList} selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} shownPokemon={shownPokemon} setShownPokemon={setShownPokemon} setSavedPokemonList={setSavedPokemonList} hearts={hearts} setHearts={setHearts} />
-      <SavedPokemonList savedPokemonList={savedPokemonList} setShownPokemon={setShownPokemon} />
+      <LovePokemon shownPokemon={shownPokemon} setSavedPokemonList={setSavedPokemonList} hearts={hearts} setHearts={setHearts} />
+      <SavedPokemonList setSelectedPokemon={setSelectedPokemon} savedPokemonList={savedPokemonList} setHearts={setHearts} />
     </div>
   )
 }
