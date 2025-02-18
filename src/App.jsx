@@ -48,8 +48,8 @@ function App() {
   }
 
   // finds index of pokemon based on name
-  const index = pokemonList.findIndex(pokemon => pokemon.name === shownPokemon.name)
-  console.log(index)
+  // const index = pokemonList.findIndex(pokemon => pokemon.name === shownPokemon.name)
+  // console.log(index)
 
   return (
     <div className='app'>
