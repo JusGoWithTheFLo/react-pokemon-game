@@ -28,9 +28,6 @@ function App() {
   const [gameError, setGameError] = useState(null)
   const [randomIndexAll, setRandomIndexAll] = useState(null)
   
-
-  console.log(selectedPokemon)
-  console.log(randomIndexAll)
   // POKEAPI
   useEffect(() => {
     axios.get('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
@@ -69,7 +66,9 @@ function App() {
   // random index from all Pokemon - only after pokemonList is populated
   useEffect(() => {
     if(pokemonList.length > 0){
-      setRandomIndexAll(Math.floor(Math.random() * pokemonList.length)) // randomly generates a pokemon from ALL pokemon
+      const randomIndex = Math.floor(Math.random() * pokemonList.length)
+      setRandomIndexAll(randomIndex) // randomly generates a pokemon from ALL pokemon
+      console.log("generated random index: ", randomIndex)
     }
   }, [pokemonList, shownPokemon])
 
@@ -95,6 +94,9 @@ function App() {
     return <div style={{color: 'red'}}>{error}</div> 
   }
 
+  console.log('selected Pokemon: ', selectedPokemon)
+  console.log('pokemonList length: ', pokemonList.length)
+
   return (
     <div className='app'>
       <LovePokemon 
@@ -112,6 +114,7 @@ function App() {
         setGameError={setGameError} />
       {/* <Battle /> */}
       <SavedPokemonList 
+        pokemonList={pokemonList}
         setSelectedPokemon={setSelectedPokemon} 
         setSavedPokemonList={setSavedPokemonList}
         savedPokemonList={savedPokemonList} 

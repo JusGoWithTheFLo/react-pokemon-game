@@ -191,7 +191,7 @@ export default function LovePokemon(props){
         }
         
     }
-    console.log(hearts)
+    console.log('hearts: ' + hearts)
     
 
     

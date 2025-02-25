@@ -3,7 +3,7 @@ import Heart from './Heart'
 
 export default function SavedPokemon(props){
     //props
-    const {setSelectedPokemon, savedPokemon, setHearts, onLetGo} = props
+    const {pokemonList, setSelectedPokemon, savedPokemon, setHearts, onLetGo} = props
 
     // renders hearts
     const heartElements = savedPokemon.hearts.map((heart, index) => (
@@ -12,10 +12,16 @@ export default function SavedPokemon(props){
 
     // handles select Pokemon
     function handleSelect(){
-        // set hearts to savedPokemon.hearts
-        setHearts(savedPokemon.hearts)
-        // set shownpokemon
-        setSelectedPokemon(savedPokemon.id - 1)
+        let validIndex = savedPokemon.id - 1
+        while(validIndex < 0 || validIndex > pokemonList.length){
+            validIndex = savedPokemon.id - 1
+        }
+        if(validIndex >= 0 && validIndex < pokemonList.length){
+            // set hearts to savedPokemon.hearts
+            setHearts(savedPokemon.hearts)
+            // set shownpokemon
+            setSelectedPokemon(validIndex)
+        }
     }
 
     function handleLetGo(){
