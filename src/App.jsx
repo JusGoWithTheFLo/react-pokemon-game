@@ -30,7 +30,8 @@ function App() {
   
   // POKEAPI
   useEffect(() => {
-    axios.get('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
+    // axios.get('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
+    axios.get('https://pokeapi.co/api/v2/pokemon?limit=151&offset=0')
       // .then(res => console.log(res.data))
       .then(res => {
         setPokemonList(res.data.results)
@@ -94,8 +95,12 @@ function App() {
     return <div style={{color: 'red'}}>{error}</div> 
   }
 
-  console.log('selected Pokemon: ', selectedPokemon)
+
+  // -------- DEBUGGING ----------
+  console.log('selected Pokemon: ', selectedPokemon + 1)
+  // console.log('Shown Pokemon data: ', shownPokemon)
   console.log('pokemonList length: ', pokemonList.length)
+  console.log(pokemonList)
 
   return (
     <div className='app'>

@@ -115,6 +115,7 @@ body{
 
 .loved-pokemon img.pokemon{
     /* aspect-ratio: 1 / 1; */
+    image-rendering: pixelated;
 }
 
 .loved-pokemon .image{

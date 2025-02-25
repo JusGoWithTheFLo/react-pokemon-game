@@ -12,21 +12,28 @@ export default function SavedPokemon(props){
 
     // handles select Pokemon
     function handleSelect(){
-        let validIndex = savedPokemon.id - 1
-        while(validIndex < 0 || validIndex > pokemonList.length){
-            validIndex = savedPokemon.id - 1
-        }
+        let validIndex = savedPokemon.id - 1 // convert ID to index
+        
+
+        // ensure that validIndex is within the bounds of the pokemonList
         if(validIndex >= 0 && validIndex < pokemonList.length){
             // set hearts to savedPokemon.hearts
             setHearts(savedPokemon.hearts)
-            // set shownpokemon
+            // set shownpokemon's index
             setSelectedPokemon(validIndex)
+            console.log('validIndex: ', validIndex)
+        } else {
+            console.error('Invalid Pokemon index: ', validIndex)
+            return // exit if ID is invalid
         }
     }
 
     function handleLetGo(){
         onLetGo(savedPokemon.id)
     }
+    
+// -------- DEBUGGING ----------
+    console.log('savedPokemon.id: ', savedPokemon.id)
     
 
     return(
