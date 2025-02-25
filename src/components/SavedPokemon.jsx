@@ -3,11 +3,11 @@ import Heart from './Heart'
 
 export default function SavedPokemon(props){
     //props
-    const {setSelectedPokemon, savedPokemon, setHearts} = props
+    const {setSelectedPokemon, savedPokemon, setHearts, onLetGo} = props
 
     // renders hearts
     const heartElements = savedPokemon.hearts.map((heart, index) => (
-        <Heart key={index} isFilled={(heart === 1)} /> // passes boolean to Heart component
+        <Heart key={index} isFilled={Boolean(heart)} /> // passes boolean to Heart component
     ))
 
     // handles select Pokemon
@@ -18,11 +18,9 @@ export default function SavedPokemon(props){
         setSelectedPokemon(savedPokemon.id - 1)
     }
 
-    // handle let go pokemon
     function handleLetGo(){
-        
+        onLetGo(savedPokemon.id)
     }
-
     
 
     return(
@@ -32,8 +30,14 @@ export default function SavedPokemon(props){
             alt={savedPokemon.name} />
             <p>{savedPokemon.name}</p>
             {heartElements}
-            <button onClick={handleSelect}>Select</button>
-            <button>Let Go</button>
+            <button onClick={handleSelect} title='Select this pokemon'>Select</button>
+            <button onClick={handleLetGo} title='Let go this pokemon'>Let Go</button>
+            {/* used for when pikachu is the default starter pokemon
+                {savedPokemon.name === 'Pikachu'
+                ? ''
+                : <button onClick={handleLetGo} title='Let go this pokemon'>Let Go</button>
+            } */}
+            
         </>
     )
 }

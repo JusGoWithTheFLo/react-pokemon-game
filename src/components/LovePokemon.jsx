@@ -5,10 +5,12 @@ import LovedPokemon from './LovedPokemon'
 
 export default function LovePokemon(props){
     // props
-    const {shownPokemon, setSavedPokemonList, hearts, setHearts} = props
+    const {randomIndex151, pokemonList, randomIndexAll, setSelectedPokemon, shownPokemon, savedPokemonList, setSavedPokemonList, hearts, setHearts, isPokemonSaved, gameError, setGameError} = props
 
     // states
     const [showSparkle, setShowSparkle] = useState(false)
+
+
 
     // allows shownPokemon to get fetched
     if(shownPokemon === null){
@@ -24,13 +26,14 @@ export default function LovePokemon(props){
     const feedURL = 'https://tiermaker.com/images/media/hero_images/2024/918079/pokemon-go-berries-918079/9180791706026432.webp'
     const hugURL = 'https://pbs.twimg.com/media/DxmZAzZWwAA7QXH.png'
     const battleURL ='https://www.s24sammy.com/uploads/1/2/0/4/120476725/go-battle-girl-gold-medal_orig.png'
+    const adventureURL ='https://icons.iconarchive.com/icons/everaldo/kids-icons/128/start-here-icon.png'
+    const rescueURL ='https://icons.iconarchive.com/icons/google/noto-emoji-people-clothing-objects/72/12206-rescue-workers-helmet-icon.png'
 
     // pokemon sprite
-    const pokemonSprite = shownPokemon.sprites.versions['generation-v']['black-white'].animated.front_default
+    const pokemonSprite = shownPokemon.sprites.versions['generation-v']['black-white'].animated.front_default ? shownPokemon.sprites.versions['generation-v']['black-white'].animated.front_default : shownPokemon.sprites.front_default
     const pokemonName = handleNames()
     const pokemonHeight = shownPokemon.height
-
-    console.log(pokemonSprite)
+    // console.log(pokemonSprite)
 
     // capitalizes first letter in names
     function handleNames(){
@@ -51,38 +54,71 @@ export default function LovePokemon(props){
             let changed = false; // ensures only one change is made per button click
             
             if (num > 0 && prev.includes(0) === true) {
-                // find the first empty heart (0) and fill it (1)
-                for (let i = 0; i < updatedHearts.length; i++) {
-                    if (updatedHearts[i] === 0 && !changed) {
-                        updatedHearts[i] = 1; // sets this heart as 'filled'
-                        changed = true; // preents further changes on the same click
-                        break; // exit the loop after making the change
-                    }
-                }
-
-                setShowSparkle(sparkleURL)
-                setTimeout(() => {
-                    setShowSparkle(false)
-                }, 800)
+                // add heart
+                addHeart(updatedHearts, changed)
 
             } else if (num < 0 && prev.includes(1) === true) {
-                // find the first filled heart (1) and empty it (0)
-                for (let i = updatedHearts.length - 1; i >= 0; i--) {
-                    if (updatedHearts[i] === 1 && !changed) {
-                        updatedHearts[i] = 0; // sets this heart as 'empty'
-                        changed = true; // prevents further chanegs on the same click
-                        break; // exit the loop after making the change
-                    }
-                }
-
-                setShowSparkle(hurtURL)
-                setTimeout(() => {
-                    setShowSparkle(false)
-                }, 800)
+                // remove heart
+                removeHeart(updatedHearts, changed)
             }
+
+            // update both the hearts of the shownPokemon and savedPokemonList
+            if(isPokemonSaved) updateSavedPokemonList(updatedHearts)
     
             return updatedHearts;
         });
+    }
+
+    // update the savedPokemonList with the updated hearts
+    function updateSavedPokemonList(updatedHearts){
+        setSavedPokemonList(prev => {
+            // check if pokemon exists in savedPokemonList
+            const existingPokemonIndex = prev.findIndex(pokemon => pokemon.id === shownPokemon.id)
+            
+            if(existingPokemonIndex !== -1){
+                // if the pokemon exists, update the hearts value
+                const updatedList = [...prev]
+                updatedList[existingPokemonIndex] = {
+                    ...updatedList[existingPokemonIndex],
+                    hearts: updatedHearts
+                }
+                return updatedList
+            }
+            // if the pokemon doesn't exist, add the new pokemon to the list
+            return prev
+        })
+    }
+
+    // add a heart
+    function addHeart(updatedHearts, changed){
+        // find the first empty heart (0) and fill it (1)
+        for (let i = 0; i < updatedHearts.length; i++) {
+            if (updatedHearts[i] === 0 && !changed) {
+                updatedHearts[i] = 1; // sets this heart as 'filled'
+                changed = true; // prevents further changes on the same click
+                break; // exit the loop after making the change
+            }
+        }
+        setShowSparkle(sparkleURL)
+        setTimeout(() => {
+            setShowSparkle(false)
+        }, 800)
+    }
+
+    // removes a heart
+    function removeHeart(updatedHearts, changed){
+        // find the first filled heart (1) and empty it (0)
+        for (let i = updatedHearts.length - 1; i >= 0; i--) {
+            if (updatedHearts[i] === 1 && !changed) {
+                updatedHearts[i] = 0; // sets this heart as 'empty'
+                changed = true; // prevents further chanegs on the same click
+                break; // exit the loop after making the change
+            }
+        }
+        setShowSparkle(hurtURL)
+        setTimeout(() => {
+            setShowSparkle(false)
+        }, 800)
     }
 
     // adds pokemon to savedPokemonList if it doesnt already exist in savedPokemonList
@@ -115,35 +151,107 @@ export default function LovePokemon(props){
         })
     }
 
+    // handle adventure
+    function handleAdventure(){
+        // if an error message is already shown, exit early
+        if(gameError) return;
+
+        // if there are no hearts left, display error message and exit early
+        if(hearts.every(heart => heart === 0)){
+            if(!gameError) { // only set error if there isn't already an error
+                setGameError('Pokemon has no hearts!')
+                setTimeout(() => setGameError(null), 1200) // clear error after timeout
+            }
+            return
+        }
+        
+        // random chance for a new pokemon encounter
+        const encounterChance = Math.random();
+
+        // new pokemon encounter
+        if(encounterChance < 0.5){ // % of encountering a new pokemon
+            // ensure that the new selected Pokemon is not already saved
+            let newSelectedPokemon = randomIndexAll
+            while(savedPokemonList.some(pokemon => pokemon.id === pokemonList[newSelectedPokemon].id)){
+                // if the new Pokemon is in the saved list, select another one
+                newSelectedPokemon = Math.floor(Math.random() * pokemonList.length)
+            }
+
+            
+            // ensure that setSelectedPokemon is only called once
+            if(!gameError){ // prevent it from running if gameError is already set
+                setSelectedPokemon(newSelectedPokemon)
+                setHearts([1, 0, 0, 0, 0])
+                console.log('displaying new pokemon')
+            }
+        } else {
+            // decrease one heart
+            console.log('decreasing heart count')
+            handleHeartChange(-1)
+        }
+        
+    }
+    console.log(hearts)
+    
+
     
     return(
         <div className='love-pokemon section'>
             <h1>Love Pokemon</h1>
-            <div className='hearts-row'>
-                {heartElements}
-            </div>
-            <div>
+            {/* Hearts */}
+            {!isPokemonSaved
+            ? ''
+            :   <div className='hearts-row'>
+                    {heartElements}
+                </div>
+            }
+            {/* Shown Pokemon */}
+            <div style={{position: 'relative'}}>
                 <LovedPokemon shownPokemon={shownPokemon} showSparkle={showSparkle} pokemonSprite={pokemonSprite} pokemonName={pokemonName} pokemonHeight={pokemonHeight} />
+                {/* Error Message */}
+                {!gameError
+                ? ''
+                :   <p className='game-error-message'>
+                        {gameError}
+                    </p>}
             </div>
-            <div className='love-buttons'>
-                <button onClick={() => handleHeartChange(1)}>
-                    <img src={petURL} />
-                    <p>Pet</p>
-                </button>
-                <button onClick={() => handleHeartChange(1)}>
-                    <img src={feedURL} />
-                    <p>Feed</p>
-                </button>
-                <button onClick={() => handleHeartChange(1)}>
-                    <img src={hugURL} />
-                    <p>Hug</p>
-                </button>
-                <button onClick={() => handleHeartChange(-1)}>
-                    <img src={battleURL} />
-                    <p>Battle</p>
-                </button>
-            </div>
-            <button onClick={handleSavePokemon}>Save Pokemon</button>
+            {/* Buttons */}
+            {!isPokemonSaved
+            ?   <div className='love-buttons'>
+                    <button onClick={handleSavePokemon}  title='Capture this pokemon'>Capture Pokemon</button>
+                </div>
+            :   <>
+                    <div className='love-buttons'>
+                        <button onClick={() => handleHeartChange(1)} title='Pet this pokemon'>
+                            <img src={petURL} />
+                            <p>Pet</p>
+                        </button>
+                        <button onClick={() => handleHeartChange(1)} title='Feed this pokemon'>
+                            <img src={feedURL} />
+                            <p>Feed</p>
+                        </button>
+                        <button onClick={() => handleHeartChange(1)} title='Hug this pokemon'>
+                            <img src={hugURL} />
+                            <p>Hug</p>
+                        </button>
+                    </div>
+                    <div className='love-buttons battle-buttons'>
+                        <button onClick={() => handleHeartChange(-1)} title='Battle with this pokemon'>
+                            <img src={battleURL} />
+                            <p>Battle</p>
+                        </button>
+                        <button onClick={() => handleAdventure()} title='Adventure with this pokemon'>
+                            <img src={adventureURL} />
+                            <p>Adventure</p>
+                        </button>
+                        <button onClick={() => handleHeartChange(-1)} title='Rescue with this pokemon'>
+                            <img src={rescueURL} />
+                            <p>Rescue</p>
+                        </button>
+                    </div>
+                </>
+            }
+            
         </div>
     )
 }

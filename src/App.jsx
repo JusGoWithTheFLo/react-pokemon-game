@@ -3,6 +3,7 @@ import axios from 'axios'
 import LovePokemon from './components/LovePokemon'
 import SavedPokemonList from './components/SavedPokemonList'
 import Heart from './components/Heart'
+import Battle from './components/Battle'
 
 
 function App() {
@@ -14,48 +15,107 @@ function App() {
     height: '4',
     hearts: [1, 1, 1, 1, 1]
   }
-  const randomIndex = Math.floor(Math.random() * 150) // randomly generates a pokemon
-  const [count, setCount] = useState(0)
+  const randomIndex151 = Math.floor(Math.random() * 150) // randomly generates a pokemon from the original 151
   const [pokemonList, setPokemonList] = useState([])
-  const [selectedPokemon, setSelectedPokemon] = useState(randomIndex)
+  const [selectedPokemon, setSelectedPokemon] = useState(starterPokemon.id - 1) // randomIndex151 for random; starterPokemon.id for starter
   const [shownPokemon, setShownPokemon] = useState(null)
   const [savedPokemonList, setSavedPokemonList] = useState([starterPokemon])
-  const [hearts, setHearts] = useState([0,0,0,0,0])
+  const [hearts, setHearts] = useState(selectedPokemon === starterPokemon.id - 1 ? starterPokemon.hearts : [0,0,0,0,0]) // if starting game with starter pokemon, show starter pokemon hearts, else 0 hearts
+  const [inBattle, setInBattle] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [isPokemonSaved, setIsPokemonSaved] = useState(false)
+  const [gameError, setGameError] = useState(null)
+  const [randomIndexAll, setRandomIndexAll] = useState(null)
+  
 
+  console.log(selectedPokemon)
+  console.log(randomIndexAll)
   // POKEAPI
   useEffect(() => {
     axios.get('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
       // .then(res => console.log(res.data))
-      .then(res => setPokemonList(res.data.results))
-      .catch(err => console.log('Error found in file: ' + err))
-      console.log('POKEMON LIST POPULATED')
+      .then(res => {
+        setPokemonList(res.data.results)
+        setLoading(false) // sets loading to false when data is fetched
+      })
+      .catch(err => {
+        setError('Failed to load Pokemon data. Please try again later.')
+        setLoading(false)
+        console.log('Error found in file: ' + err)})
+        console.log('POKEMON LIST POPULATED')
       
   }, [])
 
   // Fetches selectedPokemon from POKEAPI
   useEffect(() => {
     if (pokemonList.length > 0 && selectedPokemon !== undefined){
+      setLoading(true) // set loading to true while fetching
       axios.get(pokemonList[selectedPokemon].url)
-        .then(res => setShownPokemon(res.data))
-        .catch(err => console.log('Error found in file: ' + err))
+        .then(res => {
+          setShownPokemon(res.data)
+          setLoading(false) // set loading to false after fetching
+        })
+        .catch(err => {
+          setError('Failed to fetch Pokemon details. Please try again later.')
+          setLoading(false) // set loading to false if error occurs
+          console.log('Error found in file: ' + err)
+        })
         console.log('SHOWNPOKEMON FETCHED AND SPRITE DATA MOUNTED')
     }
     
   }, [pokemonList, selectedPokemon])  
 
-  console.log(shownPokemon)
-  console.log(savedPokemonList)
+  // random index from all Pokemon - only after pokemonList is populated
+  useEffect(() => {
+    if(pokemonList.length > 0){
+      setRandomIndexAll(Math.floor(Math.random() * pokemonList.length)) // randomly generates a pokemon from ALL pokemon
+    }
+  }, [pokemonList, shownPokemon])
 
+  // checks if shownPokemon exists in savedPokemonList
+  useEffect(() => {
+      setIsPokemonSaved(() => {
+      if (!shownPokemon) return false // if shownPokemon is not set yet, return false
+       return savedPokemonList.some(pokemon => pokemon.id === shownPokemon.id) // returns true/false instead of index
+      })
+  }, [shownPokemon, hearts, savedPokemonList])
   
-  // allows pokemonList to get fetched
-  if(pokemonList.length === 0){
-    return ''
+  // show a loading message while fetching
+  if(loading){
+    return (
+    <div className='loading-screen'>
+      <div className='spinner'></div>
+      <h2>Loading Pokemon data...</h2> 
+    </div>
+    )
+  }
+  // show error message in red if there's an error
+  if(error){
+    return <div style={{color: 'red'}}>{error}</div> 
   }
 
   return (
     <div className='app'>
-      <LovePokemon shownPokemon={shownPokemon} setSavedPokemonList={setSavedPokemonList} hearts={hearts} setHearts={setHearts} />
-      <SavedPokemonList setSelectedPokemon={setSelectedPokemon} savedPokemonList={savedPokemonList} setHearts={setHearts} />
+      <LovePokemon 
+        randomIndex151={randomIndex151} 
+        pokemonList={pokemonList}
+        randomIndexAll={randomIndexAll} 
+        setSelectedPokemon={setSelectedPokemon} 
+        shownPokemon={shownPokemon} 
+        savedPokemonList={savedPokemonList}
+        setSavedPokemonList={setSavedPokemonList} 
+        hearts={hearts} 
+        setHearts={setHearts}
+        isPokemonSaved={isPokemonSaved}
+        gameError={gameError}
+        setGameError={setGameError} />
+      {/* <Battle /> */}
+      <SavedPokemonList 
+        setSelectedPokemon={setSelectedPokemon} 
+        setSavedPokemonList={setSavedPokemonList}
+        savedPokemonList={savedPokemonList} 
+        setHearts={setHearts} />
     </div>
   )
 }

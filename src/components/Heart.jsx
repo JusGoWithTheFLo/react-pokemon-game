@@ -24,7 +24,7 @@ export default function Heart({isFilled}){
         <img 
             className="heart"
             src={isFilled ? filledHeart : emptyHeart} 
-            alt={isFilled ? 'filled heart' : 'empty heart'} 
+            alt={isFilled ? 'filled heart representing affection' : 'empty heart representing no affection'} 
             />
     )
 }
