@@ -47,8 +47,34 @@ export default function LovePokemon(props){
           <Heart key={index} isFilled={(heart === 1)} /> // passes boolean to Heart component
       ))
 
+    // checks hearts; reusable function to display error message if no hearts are left
+    function checkHearts(num){
+        // if there are no hearts left, display error message and exit early
+        if(hearts.every(heart => heart === 0) && num < 0){
+            if(!gameError) { // only set error if there isn't already an error
+                setGameError('Pokemon has no hearts!')
+                setTimeout(() => setGameError(null), 1200) // clear error after timeout
+            }
+            return true; // return true to indicate early exit
+        }
+
+        if(hearts.every(heart => heart === 1) && num > 0){
+            if(!gameError){
+                setGameError('Pokemon is filled with love!')
+                setTimeout(() => setGameError(null), 1200)
+            }
+            return true;
+        }
+        return false; // return false if no issues
+    }
+
     // handles changes to the hearts when user clicks on pet, feed, hug, or battle buttons
     function handleHeartChange(num) {
+        // use checkHearts function to handle early exit
+        if(checkHearts(num)){
+            return // exit early if no hearts left
+        }
+
         setHearts(prev => {
             const updatedHearts = [...prev];
             let changed = false; // ensures only one change is made per button click
@@ -156,13 +182,9 @@ export default function LovePokemon(props){
         // if an error message is already shown, exit early
         if(gameError) return;
 
-        // if there are no hearts left, display error message and exit early
-        if(hearts.every(heart => heart === 0)){
-            if(!gameError) { // only set error if there isn't already an error
-                setGameError('Pokemon has no hearts!')
-                setTimeout(() => setGameError(null), 1200) // clear error after timeout
-            }
-            return
+        // use checkHearts function to handle early exit
+        if(checkHearts(-1)){
+            return // exit early if no hearts left
         }
         
         // random chance for a new pokemon encounter
