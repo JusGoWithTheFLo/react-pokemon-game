@@ -22,6 +22,11 @@ export default function SavedPokemon(props){
             // set shownpokemon's index
             setSelectedPokemon(validIndex)
             console.log('validIndex: ', validIndex)
+            // scroll to the top of the page
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            })
         } else {
             console.error('Invalid Pokemon index: ', validIndex)
             return // exit if ID is invalid
