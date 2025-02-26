@@ -84,7 +84,7 @@ body{
     width: 50px;
 }
 
-.saved-pokemon-list .heart{
+.captured-pokemon-list .heart{
     height: 25px;
     width: 25px;
 }
@@ -146,8 +146,8 @@ body{
     position: relative;
 }
 
-/* SAVED POKEMON */
-.saved-pokemon{
+/* CAPTURED POKEMON */
+.captured-pokemon{
     border: 1px solid black;
     box-shadow: 1vw 1vw 2vw black;
     display: flex;
@@ -158,22 +158,22 @@ body{
     margin-top: 10px;
 }
 
-.saved-pokemon .col-left,
-.saved-pokemon .col-right{
+.captured-pokemon .col-left,
+.captured-pokemon .col-right{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.saved-pokemon .col-left{
+.captured-pokemon .col-left{
     margin-right: auto;
 }
 
-.saved-pokemon .col-right{
+.captured-pokemon .col-right{
     gap: 10px;
 }
 
-.saved-pokemon .col-right button{
+.captured-pokemon .col-right button{
     border: none;
     border-radius: 5px;
     color: white;

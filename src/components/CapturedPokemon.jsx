@@ -1,24 +1,24 @@
 import Heart from './Heart'
 
 
-export default function SavedPokemon(props){
+export default function CapturedPokemon(props){
     //props
-    const {pokemonList, setSelectedPokemon, savedPokemon, setHearts, onLetGo} = props
+    const {pokemonList, setSelectedPokemon, capturedPokemon, setHearts, onLetGo} = props
 
     // renders hearts
-    const heartElements = savedPokemon.hearts.map((heart, index) => (
+    const heartElements = capturedPokemon.hearts.map((heart, index) => (
         <Heart key={index} isFilled={Boolean(heart)} /> // passes boolean to Heart component
     ))
 
     // handles select Pokemon
     function handleSelect(){
-        let validIndex = savedPokemon.id - 1 // convert ID to index
+        let validIndex = capturedPokemon.id - 1 // convert ID to index
         
 
         // ensure that validIndex is within the bounds of the pokemonList
         if(validIndex >= 0 && validIndex < pokemonList.length){
-            // set hearts to savedPokemon.hearts
-            setHearts(savedPokemon.hearts)
+            // set hearts to capturedPokemon.hearts
+            setHearts(capturedPokemon.hearts)
             // set shownpokemon's index
             setSelectedPokemon(validIndex)
             console.log('validIndex: ', validIndex)
@@ -34,21 +34,21 @@ export default function SavedPokemon(props){
     }
 
     function handleLetGo(){
-        onLetGo(savedPokemon.id)
+        onLetGo(capturedPokemon.id)
     }
     
 // -------- DEBUGGING ----------
-    console.log('savedPokemon.id: ', savedPokemon.id)
+    console.log('capturedPokemon.id: ', capturedPokemon.id)
     
 
     return(
         <>
             <div className='col-left'>
                 <img 
-                    src={savedPokemon.sprite}
-                    alt={savedPokemon.name} 
+                    src={capturedPokemon.sprite}
+                    alt={capturedPokemon.name} 
                 />
-                <p>{savedPokemon.name}</p>
+                <p>{capturedPokemon.name}</p>
             </div>
             <div className='col-right'>
                 <div>
@@ -60,7 +60,7 @@ export default function SavedPokemon(props){
                 </div>
             </div>
             {/* used for when pikachu is the default starter pokemon
-                {savedPokemon.name === 'Pikachu'
+                {capturedPokemon.name === 'Pikachu'
                 ? ''
                 : <button onClick={handleLetGo} title='Let go this pokemon'>Let Go</button>
             } */}

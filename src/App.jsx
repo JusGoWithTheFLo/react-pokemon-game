@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import LovePokemon from './components/LovePokemon'
-import SavedPokemonList from './components/SavedPokemonList'
+import CapturedPokemonList from './components/CapturedPokemonList'
 import Heart from './components/Heart'
 import Battle from './components/Battle'
 
@@ -19,12 +19,12 @@ function App() {
   const [pokemonList, setPokemonList] = useState([])
   const [selectedPokemon, setSelectedPokemon] = useState(starterPokemon.id - 1) // randomIndex151 for random; starterPokemon.id for starter
   const [shownPokemon, setShownPokemon] = useState(null)
-  const [savedPokemonList, setSavedPokemonList] = useState([starterPokemon])
+  const [capturedPokemonList, setCapturedPokemonList] = useState([starterPokemon])
   const [hearts, setHearts] = useState(selectedPokemon === starterPokemon.id - 1 ? starterPokemon.hearts : [0,0,0,0,0]) // if starting game with starter pokemon, show starter pokemon hearts, else 0 hearts
   const [inBattle, setInBattle] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [isPokemonSaved, setIsPokemonSaved] = useState(false)
+  const [isPokemonCaptured, setIsPokemonCaptured] = useState(false)
   const [gameError, setGameError] = useState(null)
   const [randomIndexAll, setRandomIndexAll] = useState(null)
   
@@ -73,13 +73,13 @@ function App() {
     }
   }, [pokemonList, shownPokemon])
 
-  // checks if shownPokemon exists in savedPokemonList
+  // checks if shownPokemon exists in capturedPokemonList
   useEffect(() => {
-      setIsPokemonSaved(() => {
+      setIsPokemonCaptured(() => {
       if (!shownPokemon) return false // if shownPokemon is not set yet, return false
-       return savedPokemonList.some(pokemon => pokemon.id === shownPokemon.id) // returns true/false instead of index
+       return capturedPokemonList.some(pokemon => pokemon.id === shownPokemon.id) // returns true/false instead of index
       })
-  }, [shownPokemon, hearts, savedPokemonList])
+  }, [shownPokemon, hearts, capturedPokemonList])
   
   // show a loading message while fetching
   if(loading){
@@ -110,19 +110,19 @@ function App() {
         randomIndexAll={randomIndexAll} 
         setSelectedPokemon={setSelectedPokemon} 
         shownPokemon={shownPokemon} 
-        savedPokemonList={savedPokemonList}
-        setSavedPokemonList={setSavedPokemonList} 
+        capturedPokemonList={capturedPokemonList}
+        setCapturedPokemonList={setCapturedPokemonList} 
         hearts={hearts} 
         setHearts={setHearts}
-        isPokemonSaved={isPokemonSaved}
+        isPokemonCaptured={isPokemonCaptured}
         gameError={gameError}
         setGameError={setGameError} />
       {/* <Battle /> */}
-      <SavedPokemonList 
+      <CapturedPokemonList 
         pokemonList={pokemonList}
         setSelectedPokemon={setSelectedPokemon} 
-        setSavedPokemonList={setSavedPokemonList}
-        savedPokemonList={savedPokemonList} 
+        setCapturedPokemonList={setCapturedPokemonList}
+        capturedPokemonList={capturedPokemonList} 
         setHearts={setHearts} />
     </div>
   )

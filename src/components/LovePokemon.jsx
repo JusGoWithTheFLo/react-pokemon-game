@@ -5,7 +5,7 @@ import LovedPokemon from './LovedPokemon'
 
 export default function LovePokemon(props){
     // props
-    const {randomIndex151, pokemonList, randomIndexAll, setSelectedPokemon, shownPokemon, savedPokemonList, setSavedPokemonList, hearts, setHearts, isPokemonSaved, gameError, setGameError} = props
+    const {randomIndex151, pokemonList, randomIndexAll, setSelectedPokemon, shownPokemon, capturedPokemonList, setCapturedPokemonList, hearts, setHearts, isPokemonCaptured, gameError, setGameError} = props
 
     // states
     const [showSparkle, setShowSparkle] = useState(false)
@@ -89,17 +89,17 @@ export default function LovePokemon(props){
                 removeHeart(updatedHearts, changed)
             }
 
-            // update both the hearts of the shownPokemon and savedPokemonList
-            if(isPokemonSaved) updateSavedPokemonList(updatedHearts)
+            // update both the hearts of the shownPokemon and capturedPokemonList
+            if(isPokemonCaptured) updateCapturedPokemonList(updatedHearts)
     
             return updatedHearts;
         });
     }
 
-    // update the savedPokemonList with the updated hearts
-    function updateSavedPokemonList(updatedHearts){
-        setSavedPokemonList(prev => {
-            // check if pokemon exists in savedPokemonList
+    // update the capturedPokemonList with the updated hearts
+    function updateCapturedPokemonList(updatedHearts){
+        setCapturedPokemonList(prev => {
+            // check if pokemon exists in capturedPokemonList
             const existingPokemonIndex = prev.findIndex(pokemon => pokemon.id === shownPokemon.id)
             
             if(existingPokemonIndex !== -1){
@@ -148,11 +148,11 @@ export default function LovePokemon(props){
         }, 800)
     }
 
-    // adds pokemon to savedPokemonList if it doesnt already exist in savedPokemonList
+    // adds pokemon to capturedPokemonList if it doesnt already exist in capturedPokemonList
     // if pokemon does exist, then update hearts
-    function handleSavePokemon(){
-        setSavedPokemonList(prev => {
-            // check if pokemon exists in savedPokemonList
+    function handleCapturePokemon(){
+        setCapturedPokemonList(prev => {
+            // check if pokemon exists in capturedPokemonList
             const existingPokemonIndex = prev.findIndex(pokemon => pokemon.id === shownPokemon.id)
             
             // data for new pokemon
@@ -193,10 +193,10 @@ export default function LovePokemon(props){
 
         // new pokemon encounter
         if(encounterChance < 0.5){ // % of encountering a new pokemon
-            // ensure that the new selected Pokemon is not already saved
+            // ensure that the new selected Pokemon is not already captured
             let newSelectedPokemon = randomIndexAll
-            while(savedPokemonList.some(pokemon => pokemon.id === pokemonList[newSelectedPokemon].id)){
-                // if the new Pokemon is in the saved list, select another one
+            while(capturedPokemonList.some(pokemon => pokemon.id === pokemonList[newSelectedPokemon].id)){
+                // if the new Pokemon is in the captured list, select another one
                 newSelectedPokemon = Math.floor(Math.random() * pokemonList.length)
             }
 
@@ -223,7 +223,7 @@ export default function LovePokemon(props){
             <div className='love-pokemon section-container'>
                 <h1>Love Pokemon</h1>
                 {/* Hearts */}
-                {!isPokemonSaved
+                {!isPokemonCaptured
                 ? ''
                 :   <div className='hearts-row'>
                         {heartElements}
@@ -240,9 +240,9 @@ export default function LovePokemon(props){
                         </p>}
                 </div>
                 {/* Buttons */}
-                {!isPokemonSaved
+                {!isPokemonCaptured
                 ?   <div className='love-buttons capture-button'>
-                        <button onClick={handleSavePokemon}  title='Capture this pokemon'>
+                        <button onClick={handleCapturePokemon}  title='Capture this pokemon'>
                             <img src={pokeballURL} />
                             <p>Capture Pokemon</p>
                         </button>
