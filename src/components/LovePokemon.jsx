@@ -22,6 +22,7 @@ export default function LovePokemon(props){
     const hurtURL = 'https://img.itch.zone/aW1nLzk3OTkzMDYuZ2lm/original/p78Kg1.gif'
 
     // button images
+    const pokeballURL = 'https://www.serebii.net/itemdex/sprites/sv/pokeball.png'
     const petURL = 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/395b5aad-f7f3-453f-9b0d-a969946ff5bd/dcbvpsh-231c0d55-2703-4078-af72-a0a16cf84b41.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzM5NWI1YWFkLWY3ZjMtNDUzZi05YjBkLWE5Njk5NDZmZjViZFwvZGNidnBzaC0yMzFjMGQ1NS0yNzAzLTQwNzgtYWY3Mi1hMGExNmNmODRiNDEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.cqDw5woCJcHRywsumMXFj0A5y0U9I9wWpIbsgV06IGI'
     const feedURL = 'https://tiermaker.com/images/media/hero_images/2024/918079/pokemon-go-berries-918079/9180791706026432.webp'
     const hugURL = 'https://pbs.twimg.com/media/DxmZAzZWwAA7QXH.png'
@@ -218,62 +219,66 @@ export default function LovePokemon(props){
 
     
     return(
-        <div className='love-pokemon section'>
-            <h1>Love Pokemon</h1>
-            {/* Hearts */}
-            {!isPokemonSaved
-            ? ''
-            :   <div className='hearts-row'>
-                    {heartElements}
-                </div>
-            }
-            {/* Shown Pokemon */}
-            <div style={{position: 'relative'}}>
-                <LovedPokemon shownPokemon={shownPokemon} showSparkle={showSparkle} pokemonSprite={pokemonSprite} pokemonName={pokemonName} pokemonHeight={pokemonHeight} />
-                {/* Error Message */}
-                {!gameError
+        <div className='section'>
+            <div className='love-pokemon section-container'>
+                <h1>Love Pokemon</h1>
+                {/* Hearts */}
+                {!isPokemonSaved
                 ? ''
-                :   <p className='game-error-message'>
-                        {gameError}
-                    </p>}
-            </div>
-            {/* Buttons */}
-            {!isPokemonSaved
-            ?   <div className='love-buttons'>
-                    <button onClick={handleSavePokemon}  title='Capture this pokemon'>Capture Pokemon</button>
+                :   <div className='hearts-row'>
+                        {heartElements}
+                    </div>
+                }
+                {/* Shown Pokemon */}
+                <div style={{position: 'relative'}}>
+                    <LovedPokemon shownPokemon={shownPokemon} showSparkle={showSparkle} pokemonSprite={pokemonSprite} pokemonName={pokemonName} pokemonHeight={pokemonHeight} />
+                    {/* Error Message */}
+                    {!gameError
+                    ? ''
+                    :   <p className='game-error-message'>
+                            {gameError}
+                        </p>}
                 </div>
-            :   <>
-                    <div className='love-buttons'>
-                        <button onClick={() => handleHeartChange(1)} title='Pet this pokemon'>
-                            <img src={petURL} />
-                            <p>Pet</p>
-                        </button>
-                        <button onClick={() => handleHeartChange(1)} title='Feed this pokemon'>
-                            <img src={feedURL} />
-                            <p>Feed</p>
-                        </button>
-                        <button onClick={() => handleHeartChange(1)} title='Hug this pokemon'>
-                            <img src={hugURL} />
-                            <p>Hug</p>
+                {/* Buttons */}
+                {!isPokemonSaved
+                ?   <div className='love-buttons capture-button'>
+                        <button onClick={handleSavePokemon}  title='Capture this pokemon'>
+                            <img src={pokeballURL} />
+                            <p>Capture Pokemon</p>
                         </button>
                     </div>
-                    <div className='love-buttons battle-buttons'>
-                        <button onClick={() => handleHeartChange(-1)} title='Battle with this pokemon'>
-                            <img src={battleURL} />
-                            <p>Battle</p>
-                        </button>
-                        <button onClick={() => handleAdventure()} title='Adventure with this pokemon'>
-                            <img src={adventureURL} />
-                            <p>Adventure</p>
-                        </button>
-                        <button onClick={() => handleHeartChange(-1)} title='Rescue with this pokemon'>
-                            <img src={rescueURL} />
-                            <p>Rescue</p>
-                        </button>
-                    </div>
-                </>
-            }
-            
+                :   <>
+                        <div className='love-buttons'>
+                            <button onClick={() => handleHeartChange(1)} title='Pet this pokemon'>
+                                <img src={petURL} />
+                                <p>Pet</p>
+                            </button>
+                            <button onClick={() => handleHeartChange(1)} title='Feed this pokemon'>
+                                <img src={feedURL} />
+                                <p>Feed</p>
+                            </button>
+                            <button onClick={() => handleHeartChange(1)} title='Hug this pokemon'>
+                                <img src={hugURL} />
+                                <p>Hug</p>
+                            </button>
+                        </div>
+                        <div className='love-buttons battle-buttons'>
+                            <button onClick={() => handleHeartChange(-1)} title='Battle with this pokemon'>
+                                <img src={battleURL} />
+                                <p>Battle</p>
+                            </button>
+                            <button onClick={() => handleAdventure()} title='Adventure with this pokemon'>
+                                <img src={adventureURL} />
+                                <p>Adventure</p>
+                            </button>
+                            <button onClick={() => handleHeartChange(-1)} title='Rescue with this pokemon'>
+                                <img src={rescueURL} />
+                                <p>Rescue</p>
+                            </button>
+                        </div>
+                    </>
+                }
+            </div>
         </div>
     )
 }

@@ -40,7 +40,7 @@ body{
     margin: auto;
     padding: 10px;
     width: 90%;
-    max-width: 1100px;
+    max-width: 350px;
 }
 
 /* LOADING */
@@ -100,6 +100,10 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.capture-button{
+    padding: 20px 40px;
 }
 
 .love-buttons{
