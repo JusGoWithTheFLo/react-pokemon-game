@@ -99,4 +99,8 @@ To contribute to this project, follow these steps:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## Disclaimer
+
+This project is a fan-made game and is not affiliated with, endorsed by, or sponsored by Nintendo or The Pokémon Company. All rights to Pokémon, including the characters, names, and other related elements, belong to their respective owners. This project is created solely for educational purposes and as a personal learning experience.
+
 ---
