@@ -194,27 +194,45 @@ export default function LovePokemon(props){
         // new pokemon encounter
         if(encounterChance < 0.5){ // % of encountering a new pokemon
             // ensure that the new selected Pokemon is not already captured
-            let newSelectedPokemon = randomIndexAll
-            while(capturedPokemonList.some(pokemon => pokemon.id === pokemonList[newSelectedPokemon].id)){
-                // if the new Pokemon is in the captured list, select another one
-                newSelectedPokemon = Math.floor(Math.random() * pokemonList.length)
-            }
+            let newSelectedPokemon = Math.floor(Math.random() * pokemonList.length)
+            let newSelectedPokemonName = pokemonList[newSelectedPokemon].name.charAt(0).toUpperCase() + pokemonList[newSelectedPokemon].name.slice(1)
 
+            // keep reshuffling until a new Pokemon is selected that is not captured
+            let attempts = 0 // limit attempts to avoid potential infinite loop in case of a bug
+            const maxAttempts = 100 // maximum attempts to reshuffle before exiting
+            while(capturedPokemonList.some(pokemon => pokemon.name === newSelectedPokemonName)){
+                console.log('Captured Pokemon detected. Reshuffling.')
+                // newSelectedPokemon = Math.floor(Math.random() * pokemonList.length)
+                newSelectedPokemon = Math.floor(Math.random() * pokemonList.length)
+                newSelectedPokemonName = pokemonList[newSelectedPokemon].name.charAt(0).toUpperCase() + pokemonList[newSelectedPokemon].name.slice(1)
+                attempts++ // icrement attempt counter
+            }
             
-            // ensure that setSelectedPokemon is only called once
+            
+            
+            // set the new selected Pokemon if not already captured
             if(!gameError){ // prevent it from running if gameError is already set
                 setSelectedPokemon(newSelectedPokemon)
-                setHearts([1, 0, 0, 0, 0])
-                console.log('displaying new pokemon')
+                setHearts([1, 0, 0, 0, 0]) // reset hearts to initial state
+                console.log('Displaying new pokemon')
             }
         } else {
             // decrease one heart
-            console.log('decreasing heart count')
+            console.log('Decreasing heart count')
             handleHeartChange(-1)
         }
         
     }
-    console.log('hearts: ' + hearts)
+
+    // -------- DEBUGGING ----------
+    
+    // console.log('hearts: ' + hearts)
+    // console.log(capturedPokemonList.some(pokemon => pokemon.name === testName))
+    // console.log(testName)
+    // console.log(capturedPokemonList)
+
+
+  
     
 
     

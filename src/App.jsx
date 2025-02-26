@@ -97,10 +97,10 @@ function App() {
 
 
   // -------- DEBUGGING ----------
-  console.log('selected Pokemon: ', selectedPokemon + 1)
+  // console.log('selected Pokemon: ', selectedPokemon)
   // console.log('Shown Pokemon data: ', shownPokemon)
-  console.log('pokemonList length: ', pokemonList.length)
-  console.log(pokemonList)
+  // console.log('pokemonList length: ', pokemonList.length)
+  // console.log(pokemonList)
 
   return (
     <div className='app'>

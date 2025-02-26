@@ -51,6 +51,7 @@ export default function LovedPokemon(props){
                 
             </div>
             <h3>{pokemonName}</h3>
+            <p>No. {shownPokemon.id}</p>
         </div>
     )
 }

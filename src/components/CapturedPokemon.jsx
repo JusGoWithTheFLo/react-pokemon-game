@@ -38,7 +38,7 @@ export default function CapturedPokemon(props){
     }
     
 // -------- DEBUGGING ----------
-    console.log('Captured Pokemon ID: ', capturedPokemon.id)
+    // console.log('Captured Pokemon ID: ', capturedPokemon.id)
     
 
     return(
@@ -49,6 +49,7 @@ export default function CapturedPokemon(props){
                     alt={capturedPokemon.name} 
                 />
                 <p>{capturedPokemon.name}</p>
+                <p>No.{capturedPokemon.id}</p>
             </div>
             <div className='col-right'>
                 <div>
