@@ -21,7 +21,7 @@ export default function CapturedPokemon(props){
             setHearts(capturedPokemon.hearts)
             // set shownpokemon's index
             setSelectedPokemon(validIndex)
-            console.log('validIndex: ', validIndex)
+            console.log('Selected Pokemon index: ', validIndex)
             // scroll to the top of the page
             window.scrollTo({
                 top: 0,
@@ -38,7 +38,7 @@ export default function CapturedPokemon(props){
     }
     
 // -------- DEBUGGING ----------
-    console.log('capturedPokemon.id: ', capturedPokemon.id)
+    console.log('Captured Pokemon ID: ', capturedPokemon.id)
     
 
     return(
@@ -59,12 +59,6 @@ export default function CapturedPokemon(props){
                     <button className='bg-red' onClick={handleLetGo} title='Let go this pokemon'>Let Go</button>
                 </div>
             </div>
-            {/* used for when pikachu is the default starter pokemon
-                {capturedPokemon.name === 'Pikachu'
-                ? ''
-                : <button onClick={handleLetGo} title='Let go this pokemon'>Let Go</button>
-            } */}
-            
         </>
     )
 }
