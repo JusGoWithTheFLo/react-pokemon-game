@@ -148,6 +148,7 @@ body{
 
 /* CAPTURED POKEMON */
 .captured-pokemon{
+    background-color: white;
     border: 1px solid black;
     box-shadow: 1vw 1vw 2vw black;
     display: flex;
