@@ -9,7 +9,7 @@ export default function SavedPokemonList(props){
     // displays list of saved pokemon
     const savedPokemonElements = savedPokemonList.map((savedPokemon) => {
         return(
-            <div key={savedPokemon.id} className='card'>
+            <div key={savedPokemon.id} className='saved-pokemon'>
                 <SavedPokemon 
                     pokemonList={pokemonList}
                     setSelectedPokemon={setSelectedPokemon} 
@@ -30,12 +30,14 @@ export default function SavedPokemonList(props){
     
 
     return(
-        <div className="saved-pokemon section">
-            <h1>Saved Pokemon</h1>
-            {savedPokemonList.length === 0 
-            ? <p>(Tap on "Save Pokemon" to add it to the list)</p>
-            : savedPokemonElements
-            }  
+        <div className="section">
+            <div className='section-container saved-pokemon-list'>
+                <h1>Saved Pokemon</h1>
+                {savedPokemonList.length === 0 
+                ? <p>(Tap on "Save Pokemon" to add it to the list)</p>
+                : savedPokemonElements
+                }  
+            </div>
         </div>
     )
 }

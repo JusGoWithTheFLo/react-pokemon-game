@@ -38,13 +38,22 @@ export default function SavedPokemon(props){
 
     return(
         <>
-            <img 
-            src={savedPokemon.sprite}
-            alt={savedPokemon.name} />
-            <p>{savedPokemon.name}</p>
-            {heartElements}
-            <button onClick={handleSelect} title='Select this pokemon'>Select</button>
-            <button onClick={handleLetGo} title='Let go this pokemon'>Let Go</button>
+            <div className='col-left'>
+                <img 
+                    src={savedPokemon.sprite}
+                    alt={savedPokemon.name} 
+                />
+                <p>{savedPokemon.name}</p>
+            </div>
+            <div className='col-right'>
+                <div>
+                    {heartElements}
+                </div>
+                <div>
+                    <button className='bg-grn' onClick={handleSelect} title='Select this pokemon'>Select</button>
+                    <button className='bg-red' onClick={handleLetGo} title='Let go this pokemon'>Let Go</button>
+                </div>
+            </div>
             {/* used for when pikachu is the default starter pokemon
                 {savedPokemon.name === 'Pikachu'
                 ? ''
